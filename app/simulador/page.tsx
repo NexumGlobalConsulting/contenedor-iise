@@ -5,44 +5,29 @@ import { ReportGenerator } from '../../lib/ReportGenerator';
 import { evaluarRespuesta } from '../../lib/evaluador';
 import DashboardButton from '../../components/DashboardButton';
 
-// IMPORTACIONES SICAN/OECE
+// 🔹 IMPORTACIÓN ÚNICA (Consolidada)
 import { QuizEngine } from '../oece/components/QuizEngine';
 import { ResultAudit } from '../oece/components/ResultAudit';
 import { procesarResultadosNEXUM } from '../oece/lib/audit';
+import { PreguntaOECE, TipoError } from '../oece/types';
+import preguntasNEXUM from '../oece/preguntas.json';
 
-// BANCO DE DATOS FUENTE
-const preguntasBase = [
-  {
-    id: 1,
-    categoria: "Actuaciones Preparatorias",
-    pregunta: "¿Cuál es el criterio correcto para aplicar una contratación directa según la Ley 32069?",
-    opciones: { A: "Causal sustentada", B: "Solicitud área usuaria", C: "Falta de tiempo", D: "Presión" },
-    correcta: "A",
-    errorMap: { B: "E2", C: "E3", D: "E4" }
-  },
-  {
-    id: 2,
-    categoria: "Métodos de Selección",
-    pregunta: "¿Qué acción corresponde ante un riesgo alto identificado en una contratación?",
-    opciones: { A: "Ignorar", B: "Mitigar", C: "Transferir", D: "Postergar" },
-    correcta: "B",
-    errorMap: { A: "E1", C: "E3", D: "E4" }
-  }
-];
-
-// ADAPTADOR DE INTEGRIDAD
-const preguntasOECE = preguntasBase.map((p, i) => ({
+// 🔹 ADAPTADOR MAESTRO NEXUM
+const preguntasOECE: PreguntaOECE[] = (preguntasNEXUM as any).map((p: any, i: number) => ({
   id: i,
-  temaId: p.id,
-  competencia: p.categoria.includes("Selección") ? 'C2' : 'C1',
+  temaId: parseInt(p.competencia_id) || 1,
+  competencia: p.tema_ref || "General",
   enunciado: p.pregunta,
-  opciones: Object.entries(p.opciones).map(([k, v]) => ({ 
-    id: k, 
-    texto: v, 
-    tipoError: (p.errorMap as any)[k] 
-  })),
-  respuestaCorrectaId: p.correcta
+  opciones: [
+    { id: 'a', texto: p.alternativas.a, tipoError: (p.id_error_mapa.a) as TipoError },
+    { id: 'b', texto: p.alternativas.b, tipoError: (p.id_error_mapa.b) as TipoError },
+    { id: 'c', texto: p.alternativas.c, tipoError: (p.id_error_mapa.c) as TipoError },
+    { id: 'd', texto: p.alternativas.d, tipoError: (p.id_error_mapa.d) as TipoError }
+  ],
+  respuestaCorrectaId: p.respuesta_correcta.toLowerCase()
 }));
+
+const preguntasBase = preguntasOECE;
 
 export default function SimuladorPage() {
   const [etapa, setEtapa] = useState<'TOKEN' | 'EXAMEN' | 'RESULTADO'>('TOKEN');
