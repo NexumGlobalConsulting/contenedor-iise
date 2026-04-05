@@ -118,12 +118,13 @@ export const QuizEngine: React.FC<QuizEngineProps> = ({ preguntas, onFinalizar, 
             Competencia: {getNombreFase(pregunta.competencia)}
           </span>
           <h3 className="text-xl font-bold text-slate-800 leading-tight">
-            {pregunta.enunciado}
+            {pregunta.enunciado} {/* 🔹 RESTAURADO: Usamos el estándar de la interfaz */}
           </h3>
         </div>
 
         <div className="space-y-3">
-          {pregunta.opciones.map((opcion) => (
+          {/* 🔹 RESTAURADO: Usamos el array mapeado desde page.tsx */}
+          {pregunta.opciones.map((opcion: any) => (
             <button
               key={opcion.id}
               onClick={() => handleSeleccion(opcion.id)}
