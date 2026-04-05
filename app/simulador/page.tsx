@@ -8,6 +8,7 @@ import { QuizEngine } from '../oece/components/QuizEngine';
 import { ResultAudit } from '../oece/components/ResultAudit';
 import { procesarResultadosNEXUM } from '../oece/lib/audit';
 import preguntasNEXUM from '../oece/preguntas.json';
+export const dynamic = 'force-dynamic';
 
 const CANTIDAD_MUESTRA = 10;
 const isDevelopment = process.env.NODE_ENV === 'development';
