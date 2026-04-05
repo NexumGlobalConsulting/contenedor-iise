@@ -1,0 +1,15 @@
+[
+    {
+      "id": 1,
+      "temaId": 101,
+      "competencia": "C1 - Actuaciones Preparatorias",
+      "enunciado": "Bajo la Ley 32069, una Entidad decide fraccionar una contratación para evadir el método de selección correspondiente. ¿Qué hallazgo de riesgo administrativo detecta el motor NEXUM?",
+      "opciones": [
+        { "id": "A", "texto": "Inexistencia de infracción si hay presupuesto.", "tipoError": "E1" },
+        { "id": "B", "texto": "Responsabilidad administrativa por fraccionamiento indebido.", "tipoError": "E2" },
+        { "id": "C", "texto": "Nulidad del proceso por vicio en la planificación.", "tipoError": null },
+        { "id": "D", "texto": "Suspensión temporal del RNP del funcionario.", "tipoError": "E4" }
+      ],
+      "respuestaCorrectaId": "C"
+    }
+  ]
